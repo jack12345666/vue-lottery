@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>抽奖</title>
+		<link rel="stylesheet" type="text/css" href="css/animate.css" />
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+	</head>
+	<script src="js/vue.js"></script>
+	<body>
+		<div id="app"> 
+		  <div class="title">幸运大抽奖</div>
+
+		  <div class="lotteryList" v-if="moveImgList.length !== 0">
+				<div class="lotteryTitle">获奖名单如下:</div>
+				<div class="lotteryItem" v-for="(item, index) in moveImgList" :key="index">
+				{{descObj[`${item.index}`]}}	
+				</div>
+			  </div>
+
+		  <div :class="isChecked ?  'checked animated rollIn' : '' " v-if="isChecked">
+		    <div class="lottery" v-if="!previewImg">
+			  <img src="img/lottery.jpg" />
+		   </div>
+		  	<img :src="checkImg" :title="previewImg ? '点击关闭大图' : '点击查看大图'" :class="previewImg ? 'big' : '' " @click="previewBigImg"/>
+		  </div>
+		     <div class="pick" v-show="!previewImg">
+				<img :src="isChecked ? picked : pick">
+			 </div>
+				<div class="back_add">
+					<div class="imgList" v-show="!previewImg">
+						<div class="Containt">
+							<ul>
+								<li v-for="(item,index) in slideList" :key="index">
+								<img :src=`img/lottery/${item.index}.jpg` :title=`${item.index}.jpg` />
+								</li>
+							</ul>
+						</div>
+					</div>
+			</div>
+			<div class="tips" v-if="isReset">
+				<span>当前图片过少，请重置抽奖</span>
+			</div>
+			<div class="option" v-show="!previewImg">
+					<button :class="isReset ? 'startBtn notAllwed' : 'startBtn' " @click="start" v-if="isStart" :disabled="isReset">开始抽奖</button>
+					<button class="stopBtn" @click="stop" v-if="!isStart">结束抽奖</button>
+					<button class="resetBtn" @click="reset" v-if="slideList.length === 1">重置抽奖</button>
+				</div>
+		</div>
+		<script>
+			new Vue({
+				el: '#app',
+				data: {
+					descObj: {
+						1: '测试商家01',
+						2: '测试商家02',
+						3: '测试商家03',
+						4: '测试商家04',
+						5: '测试商家05',
+						6: '测试商家06',
+						7: '测试商家07',
+					},
+					slideList: [
+						{ index: 1, image: "img/lottery/1.jpg" },
+						{ index: 2, image: "img/lottery/2.jpg" },
+						{ index: 3, image: "img/lottery/3.jpg" },
+						{ index: 4, image: "img/lottery/4.jpg" },
+						{ index: 5, image: "img/lottery/5.jpg" },
+						{ index: 6, image: "img/lottery/6.jpg" },
+						{ index: 7, image: 'img/lottery/7.jpg' },
+					],
+                    resetImgList: [
+						{ index: 1, image: "img/lottery/1.jpg" },
+						{ index: 2, image: "img/lottery/2.jpg" },
+						{ index: 3, image: "img/lottery/3.jpg" },
+						{ index: 4, image: "img/lottery/4.jpg" },
+						{ index: 5, image: "img/lottery/5.jpg" },
+						{ index: 6, image: "img/lottery/6.jpg" },
+						{ index: 7, image: 'img/lottery/7.jpg' },
+					],
+					isChecked: false, // 是否选中照片
+					previewImg: false, // 是否预览中奖照片
+					isStart: true, // 是否显示开始抽奖按钮
+					checkImg: '', // 中奖照片
+					pick: 'img/pick.png',
+					picked: 'img/picked.png',
+					moveImgList: [], // 中奖列表
+					isReset: false, // 是否重置抽奖
+					spanTime: 100, // 间隔时间 (单位ms)，数值越小切换速度越快
+					isFirst: true, // 是否是第一次开始抽奖
+				},
+				methods: {
+					previewBigImg() {
+						this.previewImg = !this.previewImg
+					},
+                    reset() {
+					   this.slideList = this.resetImgList
+					   this.moveImgList = []
+					   this.isReset = false
+					   this.isFirst = true
+                    },
+					start() {
+						if(this.slideList.length === 1) {
+							this.isReset = true
+						}else{
+							if(!this.isFirst){
+								for(let i = 0; i < this.slideList.length; i++) {
+                                if(this.slideList[i].index === this.slideList[1].index){
+								this.slideList.splice(i,1);
+                                }
+                              }
+							}
+							this.isStart = false
+							this.isChecked = false 
+							this.timer = setInterval(this.startmove, this.spanTime)     
+						}
+					},
+					stop() {
+						this.isFirst = false;
+						if(this.slideList.length === 1){ 
+							 this.isReset = true
+                        }else{
+						    this.isStart = true
+							this.isChecked = true
+							clearInterval(this.timer)
+							let index = this.slideList[1].index
+							this.checkImg = `img/lottery/${index}.jpg`
+                           for(let i = 0; i < this.slideList.length; i++) {
+                            if(this.slideList[i].index === this.slideList[1].index){
+								this.moveImgList.push(this.slideList[1]);
+                            }
+                          }
+						}	
+					},
+					  startmove() {
+                        let len = this.slideList.length;
+                        for(let i = 0; i < len - 1; i++){   // 图片下标随机改变，即改变图片位置
+                            let idx = Math.floor(Math.random() * (len - i));
+                            let temp = this.slideList[idx].index
+                            this.slideList[idx].index = this.slideList[len - i - 1].index
+                            this.slideList[len - i - 1].index = temp
+                        }
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

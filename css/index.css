@@ -1,0 +1,140 @@
+	body{
+				margin: 0;
+				padding: 0;
+				background: url("../img/bg01.jpg")
+			}
+			.title {
+				text-align: center;
+				font-size: 24px;
+				font-weight: 700;
+				margin-top: 10px;
+				color: #FFFFFF;
+			}	
+			.checked{
+				text-align: center;
+				position: relative;
+			}
+			.checked img{
+				border-radius: 20px;
+				width: 500px;
+				height: 270px;
+				margin: 5px 0;
+				cursor: pointer;
+			}
+			.lottery{
+				position: absolute;
+				top: -20px;
+				left: calc(50% - 280px) ;
+			}
+			.lottery img{ 
+				border-radius: 50%;
+				width: 100px;
+				height: 100px;
+				border: 5px dotted #FFFF00;
+			}
+			.checked .big{
+				z-index: 10000;
+				width: 100%;
+				height: 100%;
+			}
+			.option{
+				text-align: center;
+				margin-top: 15px;
+			}
+			.option .startBtn {
+				background: #1989fa;
+				color: #FFFFFF;
+				border: none;
+				padding: 8px;
+				font-size: 20px;
+			}
+			.notAllwed{
+				cursor: not-allowed;
+			}
+			.option .stopBtn {
+				background: #ee0a24;
+				color: #FFFFFF;
+				border: none;
+				padding: 8px;
+				font-size: 20px;
+			}
+            .resetBtn{
+                margin-left: 10px;
+                background: #ff976a;
+                color: #FFFFFF;
+				border: none;
+				padding: 8px;
+				font-size: 20px;
+            }
+			.back_add {
+				background-color: #ededed;
+				width: 70%;
+				margin-left: 15%;
+			    border-radius: 50px;
+			}
+			.imgList {
+				border-radius: 50px;
+				height: 200px;
+				background: #ededed;
+				border-top: 3px solid #4679B2;
+				min-width: 100%;
+				padding-bottom: 20px;
+				padding-top: 20px
+			}
+
+			.imgList .Containt ul {
+				margin: 0 auto;
+				width: 1200px;
+				position: absolute;
+				left: 0px;
+				cursor: pointer;
+				height: 100%
+			}
+
+			.imgList .Containt ul li {
+				width: 300px;
+				margin-right: 40px;
+				margin-top: 10px;
+				float: left;
+			}
+
+			.imgList .Containt ul li img {
+				height: 200px;
+				width: 100%;
+			}
+			.Containt {
+				position: relative;
+				width: 1000px;
+				height: 200px;
+				overflow: hidden;
+				margin: 0 auto;
+			}
+			.pick {
+				text-align: center;
+				margin-bottom: -10px;
+				margin-top:15px;
+			}
+			.pick img{
+				width:  80px;
+			}
+			.tips{
+				margin: 10px 0;
+				text-align: center;
+			}
+			.tips span{
+				color:rgb(223, 178, 124)
+			}
+			.lotteryList{
+				
+				position: absolute;
+				left: 50px;
+				text-align: center;
+			}
+			.lotteryList .lotteryTitle{ 
+				color: #fff;
+				font-size: 24px;	
+			}
+			.lotteryList .lotteryItem{ 
+				color: #fff;
+				font-size: 20px;	
+			}
